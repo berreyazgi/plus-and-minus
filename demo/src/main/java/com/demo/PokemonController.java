@@ -8,21 +8,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
 public class PokemonController {
+    private final PokemonService pokemonService;
+
+    public PokemonController(PokemonService pokemonService) {
+        this.pokemonService = pokemonService;
+    }
 
     @GetMapping("/pokemon")
-    public String getPokemonData(Model model) {
-        ArrayList<Object> pokemonList = new ArrayList<>();
-        String filePath = "C://Users//User5//Desktop//pokemon.csv";
+    public String getPokemonList(Model model) {
+        List<Pokemon> pokemonList = new ArrayList<>();
+        String filePath = "pokemon.csv";
 
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-
                 Pokemon pokemon = new Pokemon();
 
                 pokemon.setNumber(Integer.parseInt(nextLine[0]));
@@ -37,15 +43,16 @@ public class PokemonController {
                 pokemon.setSpDef(Integer.parseInt(nextLine[9]));
                 pokemon.setSpeed(Integer.parseInt(nextLine[10]));
                 pokemon.setGeneration(Integer.parseInt(nextLine[11]));
-                pokemon.setLegendary(nextLine[12]);
+                pokemon.setLegendary(Boolean.parseBoolean(nextLine[12]));
             }
-        }catch (IOException | CsvValidationException | NumberFormatException e) {
+        } catch (IOException | CsvValidationException | NumberFormatException e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "Error reading CSV file: " + e.getMessage());
             return "error";
         }
 
         model.addAttribute("pokemonList", pokemonList);
-        return "pokemon";
+        return "pokemonList";
     }
-}
+    }
+

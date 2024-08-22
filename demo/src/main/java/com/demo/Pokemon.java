@@ -13,10 +13,12 @@ public class Pokemon {
     private int SpDef;
     private int Speed;
     private int Generation;
-    private String Legendary;
+    private Boolean Legendary;
 
+    public Pokemon() {}
     // Constructor
-    public Pokemon() {
+    public Pokemon(int number, String name, String type1, String type2, int total, int hp, int attack, int defense, int spAtk, int spDef, int speed, int generation, boolean legendary) {
+        this.Number = number;
         this.Number = Number;
         this.name = name;
         this.Type1 = Type1;
@@ -80,13 +82,13 @@ public class Pokemon {
         return Generation;
     }
 
-    public String getLegendary() {
+    public Boolean getLegendary() {
         return Legendary;
     }
 
     // Setters
     public void setNumber(int number) {
-        Number = number;
+        this.Number = number;
     }
     public void setName(String name) {
         this.name = name;
@@ -132,12 +134,13 @@ public class Pokemon {
         this.Generation = Generation;
     }
 
-    public void setLegendary(String Legendary) {
+    public void setLegendary(Boolean Legendary) {
         this.Legendary = Legendary;
     }
     @Override
     public String toString() {
         return "Pokemon{" +
+                "number=" + Number +
                 "name='" + name + '\'' +
                 ", Type1='" + Type1 + '\'' +
                 ", Type2='" + Type2 + '\'' +
